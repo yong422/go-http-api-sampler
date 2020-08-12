@@ -6,6 +6,7 @@ import (
 
 type SamplerConfiguration struct {
 	AdminMail             string
+	GeoIp2CityDatabase    string
 	RedisClusterAddresses []string
 }
 

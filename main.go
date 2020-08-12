@@ -1,60 +1,16 @@
 package main
 
 import (
-	"context"
-	"fmt"
 	"log"
-	"net/http"
 	"os"
-	"os/signal"
-	"sampler/api"
-	"sampler/config"
-	"time"
+	"runtime"
 )
 
 func main() {
-	var wait time.Duration
-	configHandler, err := config.RoadConfiugurationFile("config/sampler_config.json")
-	if err != nil {
-		panic(err)
-	}
-
-	for index, node := range configHandler.GetRedisClusterAddresses() {
-		fmt.Println(index, " > ", node)
-	}
-
-	apiRouterHandler := api.CreateApiRouter()
-
-	srv := &http.Server{
-		Addr: "0.0.0.0:8080",
-		// Good practice to set timeouts to avoid Slowloris attacks.
-		WriteTimeout: time.Second * 15,
-		ReadTimeout:  time.Second * 15,
-		IdleTimeout:  time.Second * 60,
-		Handler:      apiRouterHandler, // Pass our instance of gorilla/mux in.
-	}
-
-	// Run our server in a goroutine so that it doesn't block.
-	go func() {
-		if err := srv.ListenAndServe(); err != nil {
-			log.Println(err)
-		}
-	}()
-
-	c := make(chan os.Signal, 1)
-	// We'll accept graceful shutdowns when quit via SIGINT (Ctrl+C)
-	// SIGKILL, SIGQUIT or SIGTERM (Ctrl+/) will not be caught.
-	signal.Notify(c, os.Interrupt)
-
-	// Block until we receive our signal.
-	<-c
-
-	// Create a deadline to wait for.
-	ctx, cancel := context.WithTimeout(context.Background(), wait)
-	defer cancel()
-	// Doesn't block if no connections, but will otherwise wait
-	// until the timeout deadline.
-	srv.Shutdown(ctx)
+	runtime.GOMAXPROCS(2)
+	app := App{}
+	app.Initialize()
+	app.Run()
 	// Optionally, you could run srv.Shutdown in a goroutine and block on
 	// <-ctx.Done() if your application should wait for other services
 	// to finalize based on context cancellation.

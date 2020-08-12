@@ -6,11 +6,18 @@ import (
 	"time"
 )
 
+var (
+	Users users
+)
+
 type UsersData struct {
 	//ModelInterface
 	UserId      string `json:"userId"`
 	LastUpdated uint32 `json:"lastUpdated,int"`
 	Status      uint32 `json:"status,int"`
+}
+
+type users struct {
 }
 
 func (u *UsersData) ToJsonResponse(w http.ResponseWriter) {

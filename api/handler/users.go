@@ -42,6 +42,7 @@ func (u UsersHandler) Get(w http.ResponseWriter, r *http.Request) {
 
 func (u UsersHandler) Post(w http.ResponseWriter, r *http.Request) {
 	//w.WriteHeader(http.StatusMethodNotAllowed)
+	// update data
 }
 
 func (u UsersHandler) Delete(w http.ResponseWriter, r *http.Request) {
