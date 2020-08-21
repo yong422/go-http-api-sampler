@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/ip2location/ip2location-go"
+	"github.com/oschwald/geoip2-golang"
 	"log"
 	"net/http"
 	"os"
@@ -11,8 +13,6 @@ import (
 	"sampler/api/model"
 	"sampler/config"
 	"time"
-
-	"github.com/oschwald/geoip2-golang"
 )
 
 type App struct {
@@ -43,12 +43,24 @@ func (a *App) Initialize() {
 	}
 
 	// model setter
+	model.SetGeoIpWebServiceAuthorizationInfo(a.config.GeoIpWebServiceAccountId,
+		a.config.GeoIpWebServiceLicenseKey)
+
 	geoipReader, err := geoip2.Open(a.config.GeoIp2CityDatabase)
 	if err != nil {
 		// geoip file read error
-		fmt.Errorf("%s\n", err)
+		fmt.Println(err)
 	}
 	model.SetGeoIp(geoipReader)
+
+	db, dbErr := ip2location.OpenDB(a.config.IpToLocationDatabase)
+	if dbErr != nil {
+		// geoip file read error
+		fmt.Println(dbErr)
+	} else {
+		fmt.Println("open success > ip2location file > ", a.config.IpToLocationDatabase)
+	}
+	model.SetIpToLocation(db)
 }
 
 func (a *App) Run() int32 {
@@ -73,7 +85,10 @@ func (a *App) Run() int32 {
 	defer cancel()
 	// Doesn't block if no connections, but will otherwise wait
 	// until the timeout deadline.
-	a.server.Shutdown(ctx)
+	err := a.server.Shutdown(ctx)
+	if err != nil {
+		panic(err)
+	}
 
 	return 1
 }

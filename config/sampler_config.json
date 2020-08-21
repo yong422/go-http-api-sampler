@@ -1,5 +1,8 @@
 {
 	"AdminMail" : "ykjo@nexon.co.kr",
-	"GeoIp2CityDatabase" : "/geoip/GeoIP2-City.mmdb",
+	"GeoIpWebServiceAccountId" : "377101",
+	"GeoIpWebServiceLicenseKey" : "nAWdDTEAUiCHGglX",
+	"GeoIp2CityDatabase" : "file/GeoIP2-City.mmdb",
+	"IpToLocationDatabase" : "file/IP2PROXY-IP-PROXYTYPE-COUNTRY-REGION-CITY-ISP-DOMAIN-USAGETYPE-ASN-LASTSEEN-THREAT-RESIDENTIAL.BIN",
 	"RedisClusterAddresses" : ["127.0.0.1:7001", "127.0.0.1:7002", "127.0.0.1:7003"]
 }

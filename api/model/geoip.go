@@ -2,9 +2,8 @@ package model
 
 import (
 	"fmt"
-	"net"
-
 	"github.com/oschwald/geoip2-golang"
+	"net"
 )
 
 var (

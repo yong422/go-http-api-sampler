@@ -5,9 +5,12 @@ import (
 )
 
 type SamplerConfiguration struct {
-	AdminMail             string
-	GeoIp2CityDatabase    string
-	RedisClusterAddresses []string
+	AdminMail                 string
+	GeoIpWebServiceAccountId  string
+	GeoIpWebServiceLicenseKey string
+	GeoIp2CityDatabase        string
+	IpToLocationDatabase      string
+	RedisClusterAddresses     []string
 }
 
 func (r *SamplerConfiguration) GetRedisClusterAddresses() []string {

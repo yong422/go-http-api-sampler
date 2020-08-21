@@ -10,6 +10,7 @@ var (
 
 type lookupInterface interface {
 	FindIpIntelligence(ip string)
+	FindVpnIpIntelligence(ip string)
 }
 
 type lookup struct {
@@ -18,4 +19,11 @@ type lookup struct {
 
 func (l *lookup) FindIpIntelligence(ip string) (*model.LookupIpData, error) {
 	return model.Lookup.Get(ip)
+}
+func (l *lookup) FindIpIntelligenceFromWebService(ip string) (*model.LookupIpData, error) {
+	return model.LookupFromWebService.Get(ip)
+}
+
+func (l *lookup) FindVpnIpIntelligence(ip string) (*model.LookupVpnIpData, error) {
+	return model.LookupVpn.Get(ip)
 }

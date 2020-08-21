@@ -5,19 +5,24 @@ import (
 )
 
 type Timer struct {
-	startTime_ time.Time
+	//startTime_ time.Time
+	startTime_ int64
 }
 
 func (timer *Timer) Start() {
-	timer.startTime_ = time.Now()
+	timer.startTime_ = time.Now().UnixNano()
 }
 
-func (timer *Timer) Stop() time.Duration {
-	if timer.startTime_.Unix() != int64(0) {
-		return time.Since(timer.startTime_)
-	} else {
-		return 0
-	}
+func (timer *Timer) Stop() float64 {
+	return float64(time.Now().UnixNano() - timer.startTime_)
+}
+
+func (timer *Timer) ElapsedMilliseconds() float64 {
+	return timer.Stop() / float64(time.Millisecond)
+}
+
+func (timer *Timer) ElapsedSeconds() float64 {
+	return timer.Stop() / float64(time.Second)
 }
 
 func NewTimer() *Timer {

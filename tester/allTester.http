@@ -1,0 +1,8 @@
+GET http://localhost:8080/lookup/ip/122.228.244.206
+Content-Type: application/json
+###
+GET http://localhost:8080/lookup/vpn/211.234.124.40
+Content-Type: application/json
+###
+GET http://localhost:8080/
+Content-Type: application/json
